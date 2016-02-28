@@ -4,12 +4,15 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
-    public List<Texture> pic;
+    public List<Texture> pizza;
+    public List<Texture> restaurant;
     public GameObject go; //your plane
-                          // Use this for initialization
-    void Start () {
-        ApplyTexture(pic[Random.Range(0, pic.Count)]);
-
+    public PlayerScore ps;
+    private string currentImg;
+                          
+    void Start ()
+    {
+        ApplyTextureRestaurant();
     }
 	
 	// Update is called once per frame
@@ -17,8 +20,79 @@ public class GameManager : MonoBehaviour {
 	
 	}
 
-    void ApplyTexture(Texture texture)
+    public void ApplyTexturePizza()
     {
-        GetComponent<Renderer>().material.mainTexture = texture;
+        GetComponent<Renderer>().material.mainTexture = pizza[Random.Range(0, pizza.Count)];
+        if (GetComponent<Renderer>().material.mainTexture.name.Contains("Calzone"))
+        {
+            
+            StartCoroutine(OMGCalzone(40f));
+        }
+        else if (GetComponent<Renderer>().material.mainTexture.name.Contains("Pizza"))
+        {
+            StartCoroutine(NooPizza(40f));
+        }
+        currentImg = GetComponent<Renderer>().material.mainTexture.name;
+    }
+
+    public void ApplyTextureRestaurant()
+    {
+        
+        GetComponent<Renderer>().material.mainTexture = restaurant[Random.Range(0, restaurant.Count)];
+        currentImg = GetComponent<Renderer>().material.mainTexture.name;
+        StartCoroutine(WaitforPizza(Random.Range(1, 60)));
+
+    }
+
+
+    public void OnPizzaClick()
+    {
+
+        if (GetComponent<Renderer>().material.mainTexture.name.Contains("Pizza"))
+        {
+            Debug.Log("No i want a Calzone!");
+            ApplyTextureRestaurant();
+        }
+
+        else if (GetComponent<Renderer>().material.mainTexture.name.Contains("Calzone"))
+        {
+            Debug.Log("No! Give my Calzone back!");
+            ApplyTextureRestaurant();
+        }
+        else
+        {
+            Debug.Log("Nice, place to eat");
+        }
+
+    }
+
+    IEnumerator WaitforPizza(float waitTime)
+    {
+        Debug.Log("Waiting for" + waitTime);
+        yield return new WaitForSeconds(waitTime);
+        ApplyTexturePizza();
+    }
+
+
+    IEnumerator OMGCalzone(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        if (currentImg == GetComponent<Renderer>().material.mainTexture.name)
+        {
+            ps.UpdateScore(5);
+            ApplyTexturePizza();
+        }
+        
+    }
+
+    IEnumerator NooPizza(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        if (currentImg == GetComponent<Renderer>().material.mainTexture.name)
+        {
+            ps.UpdateScore(-1);
+            ApplyTexturePizza();
+        }
+        
     }
 }
