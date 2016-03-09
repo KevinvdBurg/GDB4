@@ -26,11 +26,11 @@ public class GameManager : MonoBehaviour {
         if (GetComponent<Renderer>().material.mainTexture.name.Contains("Calzone"))
         {
             
-            StartCoroutine(OMGCalzone(40f));
+            StartCoroutine(OMGCalzone(20f));
         }
         else if (GetComponent<Renderer>().material.mainTexture.name.Contains("Pizza"))
         {
-            StartCoroutine(NooPizza(40f));
+            StartCoroutine(NooPizza(20f));
         }
         currentImg = GetComponent<Renderer>().material.mainTexture.name;
     }
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour {
         
         GetComponent<Renderer>().material.mainTexture = restaurant[Random.Range(0, restaurant.Count)];
         currentImg = GetComponent<Renderer>().material.mainTexture.name;
-        StartCoroutine(WaitforPizza(Random.Range(1, 60)));
+        StartCoroutine(WaitforPizza(Random.Range(1, 40)));
 
     }
 
