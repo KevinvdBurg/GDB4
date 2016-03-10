@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Game.unity
+- path: C:/Users/Gebruiker/Documents/GitHub/GTO4/GTO Project/Assets/_Scenes/MainScene.unity
   isLoaded: 1
   isActive: 1
